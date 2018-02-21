@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -13,16 +12,13 @@ namespace EpubNet
 	public static class EpubReader
 	{
 		/// <summary>
-		/// Opens the book asynchronously without reading its content. Holds the handle to the EPUB file.
+		///     Opens the book asynchronously without reading its content. Holds the handle to the EPUB file.
 		/// </summary>
 		/// <param name="filePath">path to the EPUB file</param>
 		/// <returns></returns>
 		private static async Task<EpubBookRef> OpenBookAsync(string filePath)
 		{
-			if (!File.Exists(filePath))
-			{
-				throw new FileNotFoundException("Specified epub file not found.", filePath);
-			}
+			if (!File.Exists(filePath)) throw new FileNotFoundException("Specified epub file not found.", filePath);
 
 			var epubArchive = ZipFile.OpenRead(filePath);
 			var bookRef = new EpubBookRef(epubArchive)
@@ -30,15 +26,15 @@ namespace EpubNet
 				FilePath = filePath,
 				Schema = await SchemaReader.ReadSchemaAsync(epubArchive).ConfigureAwait(false)
 			};
-			bookRef.Title = bookRef.Schema.Package.Metadata.Titles.FirstOrDefault() ?? String.Empty;
+			bookRef.Title = bookRef.Schema.Package.Metadata.Titles.FirstOrDefault() ?? string.Empty;
 			bookRef.AuthorList = bookRef.Schema.Package.Metadata.Creators.Select(creator => creator.Creator).ToList();
-			bookRef.Author = String.Join(", ", bookRef.AuthorList);
+			bookRef.Author = string.Join(", ", bookRef.AuthorList);
 			bookRef.Content = await Task.Run(() => ContentReader.ParseContentMap(bookRef)).ConfigureAwait(false);
 			return bookRef;
 		}
 
 		/// <summary>
-		/// Opens the book asynchronously without reading its content. Holds the handle to the EPUB file.
+		///     Opens the book asynchronously without reading its content. Holds the handle to the EPUB file.
 		/// </summary>
 		/// <param name="stream">Stream of file to be parsed</param>
 		/// <returns></returns>
@@ -46,16 +42,16 @@ namespace EpubNet
 		{
 			var epubArchive = new ZipArchive(stream);
 			var bookRef = new EpubBookRef(epubArchive) { Schema = await SchemaReader.ReadSchemaAsync(epubArchive).ConfigureAwait(false) };
-			bookRef.Title = bookRef.Schema.Package.Metadata.Titles.FirstOrDefault() ?? String.Empty;
+			bookRef.Title = bookRef.Schema.Package.Metadata.Titles.FirstOrDefault() ?? string.Empty;
 			bookRef.AuthorList = bookRef.Schema.Package.Metadata.Creators.Select(creator => creator.Creator).ToList();
-			bookRef.Author = String.Join(", ", bookRef.AuthorList);
+			bookRef.Author = string.Join(", ", bookRef.AuthorList);
 			bookRef.Content = await Task.Run(() => ContentReader.ParseContentMap(bookRef)).ConfigureAwait(false);
 			return bookRef;
 		}
 
 
 		/// <summary>
-		/// Opens the book synchronously and reads all of its content into the memory. Does not hold the handle to the EPUB file.
+		///     Opens the book synchronously and reads all of its content into the memory. Does not hold the handle to the EPUB file.
 		/// </summary>
 		/// <param name="stream">Stream of the EPUB file</param>
 		/// <returns></returns>
@@ -93,7 +89,7 @@ namespace EpubNet
 		}
 
 		/// <summary>
-		/// Opens the book asynchronously and reads all of its content into the memory. Does not hold the handle to the EPUB file.
+		///     Opens the book asynchronously and reads all of its content into the memory. Does not hold the handle to the EPUB file.
 		/// </summary>
 		/// <param name="filePath">path to the EPUB file</param>
 		/// <returns></returns>
@@ -126,23 +122,13 @@ namespace EpubNet
 				Fonts = await ReadByteContentFiles(contentRef.Fonts).ConfigureAwait(false),
 				AllFiles = new Dictionary<string, EpubContentFile>()
 			};
-			foreach (var textContentFile in result.Html.Concat(result.Css))
-			{
-				result.AllFiles.Add(textContentFile.Key, textContentFile.Value);
-			}
+			foreach (var textContentFile in result.Html.Concat(result.Css)) result.AllFiles.Add(textContentFile.Key, textContentFile.Value);
 
-			foreach (var byteContentFile in result.Images.Concat(result.Fonts))
-			{
-				result.AllFiles.Add(byteContentFile.Key, byteContentFile.Value);
-			}
+			foreach (var byteContentFile in result.Images.Concat(result.Fonts)) result.AllFiles.Add(byteContentFile.Key, byteContentFile.Value);
 
 			foreach (var contentFileRef in contentRef.AllFiles)
-			{
 				if (!result.AllFiles.ContainsKey(contentFileRef.Key))
-				{
 					result.AllFiles.Add(contentFileRef.Key, await ReadByteContentFile(contentFileRef.Value).ConfigureAwait(false));
-				}
-			}
 
 			return result;
 		}
@@ -169,9 +155,7 @@ namespace EpubNet
 		{
 			var result = new Dictionary<string, EpubByteContentFile>();
 			foreach (var byteContentFileRef in byteContentFileRefs)
-			{
 				result.Add(byteContentFileRef.Key, await ReadByteContentFile(byteContentFileRef.Value).ConfigureAwait(false));
-			}
 
 			return result;
 		}

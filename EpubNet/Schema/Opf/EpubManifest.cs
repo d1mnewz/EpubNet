@@ -2,7 +2,7 @@
 
 namespace EpubNet.Schema.Opf
 {
-    public class EpubManifest : List<EpubManifestItem>
-    {
-    }
+	public class EpubManifest : List<EpubManifestItem>
+	{
+	}
 }

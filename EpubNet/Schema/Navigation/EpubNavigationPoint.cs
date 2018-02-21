@@ -11,6 +11,9 @@ namespace EpubNet.Schema.Navigation
 		public EpubNavigationContent Content { get; set; }
 		public List<EpubNavigationPoint> ChildNavigationPoints { get; set; }
 
-		public override string ToString() => $"Id: {Id}, Content.Source: {Content.Source}";
+		public override string ToString()
+		{
+			return $"Id: {Id}, Content.Source: {Content.Source}";
+		}
 	}
 }

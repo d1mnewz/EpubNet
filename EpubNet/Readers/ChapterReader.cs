@@ -33,9 +33,7 @@ namespace EpubNet.Readers
 				}
 
 				if (!bookRef.Content.Html.TryGetValue(contentFileName, out var htmlContentFileRef))
-				{
 					throw new Exception($"Incorrect EPUB manifest: item with href = \"{contentFileName}\" is missing.");
-				}
 
 				var chapterRef = new EpubChapterRef(htmlContentFileRef)
 				{

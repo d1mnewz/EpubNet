@@ -8,7 +8,20 @@ namespace EpubNet.Console
 {
 	public static class EpubReaderExtensions
 	{
-		public static string ToPlainText(this EpubChapter chapter) => GetContentAsPlainText(WebUtility.HtmlDecode(chapter.HtmlContent));
+		private static readonly RegexOptions RegexOptions =
+			RegexOptions.CultureInvariant | RegexOptions.IgnorePatternWhitespace | RegexOptions.ExplicitCapture;
+
+		private static readonly RegexOptions RegexOptionsIgnoreCase = RegexOptions.IgnoreCase | RegexOptions;
+
+		private static readonly RegexOptions RegexOptionsIgnoreCaseSingleLine =
+			RegexOptions.Singleline | RegexOptionsIgnoreCase;
+
+		private static readonly RegexOptions RegexOptionsIgnoreCaseMultiLine = RegexOptions.Multiline | RegexOptionsIgnoreCase;
+
+		public static string ToPlainText(this EpubChapter chapter)
+		{
+			return GetContentAsPlainText(WebUtility.HtmlDecode(chapter.HtmlContent));
+		}
 
 		public static string ToPlainText(this EpubBook book)
 		{
@@ -94,15 +107,5 @@ namespace EpubNet.Console
 				default: return " ";
 			}
 		}
-
-		private static readonly RegexOptions RegexOptions =
-			RegexOptions.CultureInvariant | RegexOptions.IgnorePatternWhitespace | RegexOptions.ExplicitCapture;
-
-		private static readonly RegexOptions RegexOptionsIgnoreCase = RegexOptions.IgnoreCase | RegexOptions;
-
-		private static readonly RegexOptions RegexOptionsIgnoreCaseSingleLine =
-			RegexOptions.Singleline | RegexOptionsIgnoreCase;
-
-		private static readonly RegexOptions RegexOptionsIgnoreCaseMultiLine = RegexOptions.Multiline | RegexOptionsIgnoreCase;
 	}
 }

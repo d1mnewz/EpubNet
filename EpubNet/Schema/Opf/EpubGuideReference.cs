@@ -6,7 +6,9 @@
 		public string Title { get; set; }
 		public string Href { get; set; }
 
-		public override string ToString() => $"Type: {Type}, Href: {Href}";
-		
+		public override string ToString()
+		{
+			return $"Type: {Type}, Href: {Href}";
+		}
 	}
 }

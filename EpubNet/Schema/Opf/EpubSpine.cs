@@ -2,8 +2,8 @@
 
 namespace EpubNet.Schema.Opf
 {
-    public class EpubSpine : List<EpubSpineItemRef>
-    {
-        public string Toc { get; set; }
-    }
+	public class EpubSpine : List<EpubSpineItemRef>
+	{
+		public string Toc { get; set; }
+	}
 }

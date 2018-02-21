@@ -17,11 +17,6 @@ namespace EpubNet.RefEntities
 			_isDisposed = false;
 		}
 
-		~EpubBookRef()
-		{
-			Dispose(false);
-		}
-
 		public string FilePath { get; set; }
 		public string Title { get; set; }
 		public string Author { get; set; }
@@ -30,6 +25,18 @@ namespace EpubNet.RefEntities
 		public EpubContentRef Content { get; set; }
 
 		internal ZipArchive EpubArchive { get; }
+
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		~EpubBookRef()
+		{
+			Dispose(false);
+		}
 
 		public async Task<byte[]> ReadCover()
 		{
@@ -46,21 +53,10 @@ namespace EpubNet.RefEntities
 			return ChapterReader.GetChapters(this);
 		}
 
-
-
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
-
 		protected virtual void Dispose(bool disposing)
 		{
 			if (_isDisposed) return;
-			if (disposing)
-			{
-				EpubArchive.Dispose();
-			}
+			if (disposing) EpubArchive.Dispose();
 
 			_isDisposed = true;
 		}

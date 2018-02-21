@@ -52,15 +52,9 @@ namespace EpubNet.RefEntities
 		{
 			var contentFilePath = ZipPathUtils.Combine(_epubBookRef.Schema.ContentDirectoryPath, FileName);
 			var contentFileEntry = _epubBookRef.EpubArchive.GetEntry(contentFilePath);
-			if (contentFileEntry is null)
-			{
-				throw new Exception($"EPUB parsing error: file {contentFilePath} not found in archive.");
-			}
+			if (contentFileEntry is null) throw new Exception($"EPUB parsing error: file {contentFilePath} not found in archive.");
 
-			if (contentFileEntry.Length > Int32.MaxValue)
-			{
-				throw new Exception($"EPUB parsing error: file {contentFilePath} is bigger than 2 Gb.");
-			}
+			if (contentFileEntry.Length > int.MaxValue) throw new Exception($"EPUB parsing error: file {contentFilePath} is bigger than 2 Gb.");
 
 			return contentFileEntry;
 		}
@@ -68,10 +62,7 @@ namespace EpubNet.RefEntities
 		private Stream OpenContentStream(ZipArchiveEntry contentFileEntry)
 		{
 			var contentStream = contentFileEntry.Open();
-			if (contentStream is null)
-			{
-				throw new Exception($"Incorrect EPUB file: content file \"{FileName}\" specified in manifest is not found.");
-			}
+			if (contentStream is null) throw new Exception($"Incorrect EPUB file: content file \"{FileName}\" specified in manifest is not found.");
 
 			return contentStream;
 		}

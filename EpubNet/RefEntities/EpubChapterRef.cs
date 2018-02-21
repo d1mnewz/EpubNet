@@ -22,6 +22,9 @@ namespace EpubNet.RefEntities
 			return _epubTextContentFileRef.ReadContentAsTextAsync();
 		}
 
-		public override string ToString() => $"Title: {Title}, Subchapter count: {SubChapters.Count}";
+		public override string ToString()
+		{
+			return $"Title: {Title}, Subchapter count: {SubChapters.Count}";
+		}
 	}
 }

@@ -5,6 +5,9 @@
 		public string Id { get; set; }
 		public string Source { get; set; }
 
-		public override string ToString() => $"Source: {Source}";
+		public override string ToString()
+		{
+			return $"Source: {Source}";
+		}
 	}
 }

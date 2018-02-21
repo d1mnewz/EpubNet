@@ -13,10 +13,7 @@ namespace EpubNet.Readers
 		public static async Task<EpubPackage> ReadPackageAsync(ZipArchive epubArchive, string rootFilePath)
 		{
 			var rootFileEntry = epubArchive.GetEntry(rootFilePath);
-			if (rootFileEntry is null)
-			{
-				throw new Exception("EPUB parsing error: root file not found in archive.");
-			}
+			if (rootFileEntry is null) throw new Exception("EPUB parsing error: root file not found in archive.");
 
 			XDocument containerDocument;
 			using (var containerStream = rootFileEntry.Open())
@@ -29,39 +26,24 @@ namespace EpubNet.Readers
 			var result = new EpubPackage();
 			var epubVersionValue = packageNode.Attribute("version").Value;
 			if (epubVersionValue is "2.0")
-			{
 				result.EpubVersion = EpubVersion.EPUB_2;
-			}
 			else if (epubVersionValue is "3.0")
-			{
 				result.EpubVersion = EpubVersion.EPUB_3;
-			}
 			else
-			{
 				throw new Exception($"Unsupported EPUB version: {epubVersionValue}.");
-			}
 
 			var metadataNode = packageNode.Element(opfNamespace + "metadata");
-			if (metadataNode is null)
-			{
-				throw new Exception("EPUB parsing error: metadata not found in the package.");
-			}
+			if (metadataNode is null) throw new Exception("EPUB parsing error: metadata not found in the package.");
 
 			var metadata = ReadMetadata(metadataNode, result.EpubVersion);
 			result.Metadata = metadata;
 			var manifestNode = packageNode.Element(opfNamespace + "manifest");
-			if (manifestNode is null)
-			{
-				throw new Exception("EPUB parsing error: manifest not found in the package.");
-			}
+			if (manifestNode is null) throw new Exception("EPUB parsing error: manifest not found in the package.");
 
 			var manifest = ReadManifest(manifestNode);
 			result.Manifest = manifest;
 			var spineNode = packageNode.Element(opfNamespace + "spine");
-			if (spineNode is null)
-			{
-				throw new Exception("EPUB parsing error: spine not found in the package.");
-			}
+			if (spineNode is null) throw new Exception("EPUB parsing error: spine not found in the package.");
 
 			var spine = ReadSpine(spineNode);
 			result.Spine = spine;
@@ -214,10 +196,7 @@ namespace EpubNet.Readers
 		{
 			var result = new EpubMetadataDate();
 			var eventAttribute = metadataDateNode.Attribute(metadataDateNode.Name.Namespace + "event");
-			if (eventAttribute != null)
-			{
-				result.Event = eventAttribute.Value;
-			}
+			if (eventAttribute != null) result.Event = eventAttribute.Value;
 
 			result.Date = metadataDateNode.Value;
 			return result;
@@ -295,8 +274,7 @@ namespace EpubNet.Readers
 		{
 			var result = new EpubManifest();
 			foreach (var manifestItemNode in manifestNode.Elements())
-			{
-				if (String.Compare(manifestItemNode.Name.LocalName, "item", StringComparison.OrdinalIgnoreCase) is 0)
+				if (string.Compare(manifestItemNode.Name.LocalName, "item", StringComparison.OrdinalIgnoreCase) is 0)
 				{
 					var manifestItem = new EpubManifestItem();
 					foreach (var manifestItemNodeAttribute in manifestItemNode.Attributes())
@@ -328,24 +306,14 @@ namespace EpubNet.Readers
 						}
 					}
 
-					if (String.IsNullOrWhiteSpace(manifestItem.Id))
-					{
-						throw new Exception("Incorrect EPUB manifest: item ID is missing");
-					}
+					if (string.IsNullOrWhiteSpace(manifestItem.Id)) throw new Exception("Incorrect EPUB manifest: item ID is missing");
 
-					if (String.IsNullOrWhiteSpace(manifestItem.Href))
-					{
-						throw new Exception("Incorrect EPUB manifest: item href is missing");
-					}
+					if (string.IsNullOrWhiteSpace(manifestItem.Href)) throw new Exception("Incorrect EPUB manifest: item href is missing");
 
-					if (String.IsNullOrWhiteSpace(manifestItem.MediaType))
-					{
-						throw new Exception("Incorrect EPUB manifest: item media type is missing");
-					}
+					if (string.IsNullOrWhiteSpace(manifestItem.MediaType)) throw new Exception("Incorrect EPUB manifest: item media type is missing");
 
 					result.Add(manifestItem);
 				}
-			}
 
 			return result;
 		}
@@ -354,29 +322,21 @@ namespace EpubNet.Readers
 		{
 			var result = new EpubSpine();
 			var tocAttribute = spineNode.Attribute("toc");
-			if (String.IsNullOrWhiteSpace(tocAttribute?.Value))
-			{
-				throw new Exception("Incorrect EPUB spine: TOC is missing");
-			}
+			if (string.IsNullOrWhiteSpace(tocAttribute?.Value)) throw new Exception("Incorrect EPUB spine: TOC is missing");
 
 			result.Toc = tocAttribute.Value;
 			foreach (var spineItemNode in spineNode.Elements())
-			{
-				if (String.Compare(spineItemNode.Name.LocalName, "itemref", StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(spineItemNode.Name.LocalName, "itemref", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					var spineItemRef = new EpubSpineItemRef();
 					var idRefAttribute = spineItemNode.Attribute("idref");
-					if (idRefAttribute == null || String.IsNullOrWhiteSpace(idRefAttribute.Value))
-					{
-						throw new Exception("Incorrect EPUB spine: item ID ref is missing");
-					}
+					if (idRefAttribute == null || string.IsNullOrWhiteSpace(idRefAttribute.Value)) throw new Exception("Incorrect EPUB spine: item ID ref is missing");
 
 					spineItemRef.IdRef = idRefAttribute.Value;
 					var linearAttribute = spineItemNode.Attribute("linear");
-					spineItemRef.IsLinear = linearAttribute == null || String.Compare(linearAttribute.Value, "no", StringComparison.OrdinalIgnoreCase) != 0;
+					spineItemRef.IsLinear = linearAttribute == null || string.Compare(linearAttribute.Value, "no", StringComparison.OrdinalIgnoreCase) != 0;
 					result.Add(spineItemRef);
 				}
-			}
 
 			return result;
 		}
@@ -385,8 +345,7 @@ namespace EpubNet.Readers
 		{
 			var result = new EpubGuide();
 			foreach (var guideReferenceNode in guideNode.Elements())
-			{
-				if (String.Compare(guideReferenceNode.Name.LocalName, "reference", StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(guideReferenceNode.Name.LocalName, "reference", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					var guideReference = new EpubGuideReference();
 					foreach (var guideReferenceNodeAttribute in guideReferenceNode.Attributes())
@@ -406,19 +365,12 @@ namespace EpubNet.Readers
 						}
 					}
 
-					if (String.IsNullOrWhiteSpace(guideReference.Type))
-					{
-						throw new Exception("Incorrect EPUB guide: item type is missing");
-					}
+					if (string.IsNullOrWhiteSpace(guideReference.Type)) throw new Exception("Incorrect EPUB guide: item type is missing");
 
-					if (String.IsNullOrWhiteSpace(guideReference.Href))
-					{
-						throw new Exception("Incorrect EPUB guide: item href is missing");
-					}
+					if (string.IsNullOrWhiteSpace(guideReference.Href)) throw new Exception("Incorrect EPUB guide: item href is missing");
 
 					result.Add(guideReference);
 				}
-			}
 
 			return result;
 		}

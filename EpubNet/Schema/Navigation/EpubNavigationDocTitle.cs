@@ -2,7 +2,7 @@
 
 namespace EpubNet.Schema.Navigation
 {
-    public class EpubNavigationDocTitle : List<string>
-    {
-    }
+	public class EpubNavigationDocTitle : List<string>
+	{
+	}
 }

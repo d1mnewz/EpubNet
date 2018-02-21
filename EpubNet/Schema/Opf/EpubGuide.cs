@@ -2,7 +2,7 @@
 
 namespace EpubNet.Schema.Opf
 {
-    public class EpubGuide : List<EpubGuideReference>
-    {
-    }
+	public class EpubGuide : List<EpubGuideReference>
+	{
+	}
 }
