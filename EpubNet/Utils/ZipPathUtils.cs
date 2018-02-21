@@ -8,9 +8,6 @@
 			return lastSlashIndex is -1 ? string.Empty : filePath.Substring(0, lastSlashIndex);
 		}
 
-		public static string Combine(string directory, string fileName)
-		{
-			return string.IsNullOrEmpty(directory) ? fileName : string.Concat(directory, "/", fileName);
-		}
+		public static string Combine(string directory, string fileName) => string.IsNullOrEmpty(directory) ? fileName : string.Concat(directory, "/", fileName);
 	}
 }

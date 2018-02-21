@@ -7,7 +7,7 @@ using EpubNet.Readers;
 
 namespace EpubNet.RefEntities
 {
-	public class EpubBookRef : IDisposable
+	public sealed class EpubBookRef : IDisposable
 	{
 		private bool _isDisposed;
 
@@ -48,12 +48,12 @@ namespace EpubNet.RefEntities
 			return await BookCoverReader.ReadBookCoverAsync(this).ConfigureAwait(false);
 		}
 
-		public List<EpubChapterRef> GetChapters()
+		public IEnumerable<EpubChapterRef> GetChapters()
 		{
 			return ChapterReader.GetChapters(this);
 		}
 
-		protected virtual void Dispose(bool disposing)
+		private void Dispose(bool disposing)
 		{
 			if (_isDisposed) return;
 			if (disposing) EpubArchive.Dispose();

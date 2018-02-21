@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using EpubNet.Entities;
 
-namespace EpubNet.Console
+namespace EpubNet.Console.Extensions
 {
 	public static class EpubReaderExtensions
 	{
