@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpubNet", "EpubNet\EpubNet.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpubNet.Console", "EpubNet.Console\EpubNet.Console.csproj", "{004EBD48-3BE6-4046-97F3-3F8986C31BB8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpubNet.Tests", "EpubNet.Tests\EpubNet.Tests.csproj", "{0991BA0E-F7C7-48A2-AC43-D9515F715711}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{004EBD48-3BE6-4046-97F3-3F8986C31BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{004EBD48-3BE6-4046-97F3-3F8986C31BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{004EBD48-3BE6-4046-97F3-3F8986C31BB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0991BA0E-F7C7-48A2-AC43-D9515F715711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0991BA0E-F7C7-48A2-AC43-D9515F715711}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0991BA0E-F7C7-48A2-AC43-D9515F715711}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0991BA0E-F7C7-48A2-AC43-D9515F715711}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
