@@ -1,0 +1,12 @@
+﻿using System;
+
+namespace EpubNet.Schema.Opf
+{
+	public class EpubSpineItemRef
+	{
+		public string IdRef { get; set; }
+		public bool IsLinear { get; set; }
+
+		public override string ToString() => $"IdRef: {IdRef}";
+	}
+}

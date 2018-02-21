@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpubNet", "EpubNet\EpubNet.csproj", "{A7D1624D-9844-4B22-B182-E9AA0727902C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpubNet.Console", "EpubNet.Console\EpubNet.Console.csproj", "{004EBD48-3BE6-4046-97F3-3F8986C31BB8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7D1624D-9844-4B22-B182-E9AA0727902C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7D1624D-9844-4B22-B182-E9AA0727902C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7D1624D-9844-4B22-B182-E9AA0727902C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7D1624D-9844-4B22-B182-E9AA0727902C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{004EBD48-3BE6-4046-97F3-3F8986C31BB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{004EBD48-3BE6-4046-97F3-3F8986C31BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{004EBD48-3BE6-4046-97F3-3F8986C31BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{004EBD48-3BE6-4046-97F3-3F8986C31BB8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
