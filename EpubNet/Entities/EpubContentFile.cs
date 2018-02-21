@@ -1,5 +1,8 @@
-﻿namespace EpubNet.Entities
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace EpubNet.Entities
 {
+	[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 	public abstract class EpubContentFile
 	{
 		public string FileName { get; set; }

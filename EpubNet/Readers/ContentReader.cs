@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using EpubNet.Entities;
 using EpubNet.RefEntities;
 
 namespace EpubNet.Readers
 {
+	[SuppressMessage("ReSharper", "SwitchStatementMissingSomeCases")]
 	internal static class ContentReader
 	{
 		public static EpubContentRef ParseContentMap(EpubBookRef bookRef)

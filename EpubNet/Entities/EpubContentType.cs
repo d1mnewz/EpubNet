@@ -1,5 +1,8 @@
-﻿namespace EpubNet.Entities
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace EpubNet.Entities
 {
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
 	public enum EpubContentType
 	{
 		XHTML_1_1 = 1,

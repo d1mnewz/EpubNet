@@ -8,12 +8,12 @@ namespace EpubNet.Readers
 {
 	internal static class ChapterReader
 	{
-		public static List<EpubChapterRef> GetChapters(EpubBookRef bookRef)
+		public static IEnumerable<EpubChapterRef> GetChapters(EpubBookRef bookRef)
 		{
 			return GetChapters(bookRef, bookRef.Schema.Navigation.NavMap);
 		}
 
-		public static List<EpubChapterRef> GetChapters(EpubBookRef bookRef, IEnumerable<EpubNavigationPoint> navigationPoints)
+		private static List<EpubChapterRef> GetChapters(EpubBookRef bookRef, IEnumerable<EpubNavigationPoint> navigationPoints)
 		{
 			var result = new List<EpubChapterRef>();
 			foreach (var navigationPoint in navigationPoints)

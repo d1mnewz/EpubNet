@@ -1,5 +1,8 @@
-﻿namespace EpubNet.Schema.Opf
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace EpubNet.Schema.Opf
 {
+	[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 	public class EpubManifestItem
 	{
 		public string Id { get; set; }

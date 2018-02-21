@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EpubNet.Schema.Opf
 {
+	[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 	public class EpubMetadata
 	{
 		public List<string> Titles { get; set; }

@@ -38,11 +38,6 @@ namespace EpubNet.RefEntities
 			Dispose(false);
 		}
 
-		public async Task<byte[]> ReadCover()
-		{
-			return await ReadCoverAsync();
-		}
-
 		public async Task<byte[]> ReadCoverAsync()
 		{
 			return await BookCoverReader.ReadBookCoverAsync(this).ConfigureAwait(false);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO.Compression;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -8,6 +9,8 @@ using EpubNet.Utils;
 
 namespace EpubNet.Readers
 {
+	[SuppressMessage("ReSharper", "SuggestBaseTypeForParameter")]
+	[SuppressMessage("ReSharper", "SwitchStatementMissingSomeCases")]
 	internal static class PackageReader
 	{
 		public static async Task<EpubPackage> ReadPackageAsync(ZipArchive epubArchive, string rootFilePath)
@@ -25,12 +28,17 @@ namespace EpubNet.Readers
 			var packageNode = containerDocument.Element(opfNamespace + "package");
 			var result = new EpubPackage();
 			var epubVersionValue = packageNode.Attribute("version").Value;
-			if (epubVersionValue is "2.0")
-				result.EpubVersion = EpubVersion.EPUB_2;
-			else if (epubVersionValue is "3.0")
-				result.EpubVersion = EpubVersion.EPUB_3;
-			else
-				throw new Exception($"Unsupported EPUB version: {epubVersionValue}.");
+			switch (epubVersionValue)
+			{
+				case "2.0":
+					result.EpubVersion = EpubVersion.EPUB_2;
+					break;
+				case "3.0":
+					result.EpubVersion = EpubVersion.EPUB_3;
+					break;
+				default:
+					throw new Exception($"Unsupported EPUB version: {epubVersionValue}.");
+			}
 
 			var metadataNode = packageNode.Element(opfNamespace + "metadata");
 			if (metadataNode is null) throw new Exception("EPUB parsing error: metadata not found in the package.");
@@ -48,11 +56,9 @@ namespace EpubNet.Readers
 			var spine = ReadSpine(spineNode);
 			result.Spine = spine;
 			var guideNode = packageNode.Element(opfNamespace + "guide");
-			if (guideNode != null)
-			{
-				var guide = ReadGuide(guideNode);
-				result.Guide = guide;
-			}
+			if (guideNode is null) return result;
+			var guide = ReadGuide(guideNode);
+			result.Guide = guide;
 
 			return result;
 		}
@@ -132,15 +138,20 @@ namespace EpubNet.Readers
 						result.Rights.Add(innerText);
 						break;
 					case "meta":
-						if (epubVersion is EpubVersion.EPUB_2)
+						switch (epubVersion)
 						{
-							var meta = ReadMetadataMetaVersion2(metadataItemNode);
-							result.MetaItems.Add(meta);
-						}
-						else if (epubVersion is EpubVersion.EPUB_3)
-						{
-							var meta = ReadMetadataMetaVersion3(metadataItemNode);
-							result.MetaItems.Add(meta);
+							case EpubVersion.EPUB_2:
+							{
+								var meta = ReadMetadataMetaVersion2(metadataItemNode);
+								result.MetaItems.Add(meta);
+								break;
+							}
+							case EpubVersion.EPUB_3:
+							{
+								var meta = ReadMetadataMetaVersion3(metadataItemNode);
+								result.MetaItems.Add(meta);
+								break;
+							}
 						}
 
 						break;
@@ -324,17 +335,17 @@ namespace EpubNet.Readers
 			var tocAttribute = spineNode.Attribute("toc");
 			if (string.IsNullOrWhiteSpace(tocAttribute?.Value)) throw new Exception("Incorrect EPUB spine: TOC is missing");
 
-			result.Toc = tocAttribute.Value;
+			result.Toc = tocAttribute?.Value;
 			foreach (var spineItemNode in spineNode.Elements())
 				if (string.Compare(spineItemNode.Name.LocalName, "itemref", StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					var spineItemRef = new EpubSpineItemRef();
 					var idRefAttribute = spineItemNode.Attribute("idref");
-					if (idRefAttribute == null || string.IsNullOrWhiteSpace(idRefAttribute.Value)) throw new Exception("Incorrect EPUB spine: item ID ref is missing");
+					if (idRefAttribute is null || string.IsNullOrWhiteSpace(idRefAttribute.Value)) throw new Exception("Incorrect EPUB spine: item ID ref is missing");
 
 					spineItemRef.IdRef = idRefAttribute.Value;
 					var linearAttribute = spineItemNode.Attribute("linear");
-					spineItemRef.IsLinear = linearAttribute == null || string.Compare(linearAttribute.Value, "no", StringComparison.OrdinalIgnoreCase) != 0;
+					spineItemRef.IsLinear = linearAttribute is null || string.Compare(linearAttribute.Value, "no", StringComparison.OrdinalIgnoreCase) != 0;
 					result.Add(spineItemRef);
 				}
 

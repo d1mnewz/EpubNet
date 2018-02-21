@@ -11,6 +11,80 @@ namespace EpubNet
 {
 	public static class EpubReader
 	{
+		#region Public API
+
+		/// <summary>
+		/// 	Opens the book asynchronously and reads all of its content into the memory. Does not hold the handle to the EPUB file.
+		/// </summary>
+		/// <param name="content">Byte array of EPUB book</param>
+		/// <returns><seealso cref="EpubBook"/></returns>
+		public static async Task<EpubBook> ReadBookAsync(byte[] content)
+		{
+			return await ReadBookAsync(new MemoryStream(content));
+		}
+
+		/// <summary>
+		/// 	Opens the book asynchronously and reads all of its content into the memory. Does not hold the handle to the EPUB file.
+		/// </summary>
+		/// <param name="stream">Stream of EPUB book</param>
+		/// <returns><seealso cref="EpubBook"/></returns>
+		public static async Task<EpubBook> ReadBookAsync(Stream stream)
+		{
+			var result = new EpubBook();
+			var epubBookRef = await OpenBookAsync(stream).ConfigureAwait(false);
+			try
+			{
+				result.Schema = epubBookRef.Schema;
+				result.Title = epubBookRef.Title;
+				result.AuthorList = epubBookRef.AuthorList;
+				result.Author = epubBookRef.Author;
+				var epubBook = result;
+				var epubContent = await ReadContent(epubBookRef.Content).ConfigureAwait(false);
+				epubBook.Content = epubContent;
+				epubBook = result;
+				var numArray = await epubBookRef.ReadCoverAsync().ConfigureAwait(false);
+				epubBook.CoverImage = numArray;
+				var chapterRefs = epubBookRef.GetChapters();
+				epubBook = result;
+				var epubChapterList = await ReadChapters(chapterRefs).ConfigureAwait(false);
+				epubBook.Chapters = epubChapterList;
+			}
+			finally
+			{
+				epubBookRef?.Dispose();
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		///     Opens the book asynchronously and reads all of its content into the memory. Does not hold the handle to the EPUB file.
+		/// </summary>
+		/// <param name="filePath">path to the EPUB file</param>
+		/// <returns></returns>
+		public static async Task<EpubBook> ReadBookAsync(string filePath)
+		{
+			var result = new EpubBook();
+			using (var epubBookRef = await OpenBookAsync(filePath).ConfigureAwait(false))
+			{
+				result.FilePath = epubBookRef.FilePath;
+				result.Schema = epubBookRef.Schema;
+				result.Title = epubBookRef.Title;
+				result.AuthorList = epubBookRef.AuthorList;
+				result.Author = epubBookRef.Author;
+				result.Content = await ReadContent(epubBookRef.Content).ConfigureAwait(false);
+				result.CoverImage = await epubBookRef.ReadCoverAsync().ConfigureAwait(false);
+				var chapterRefs = epubBookRef.GetChapters();
+				result.Chapters = await ReadChapters(chapterRefs).ConfigureAwait(false);
+			}
+
+			return result;
+		}
+
+		#endregion
+
+		#region Non-public methods
+
 		/// <summary>
 		///     Opens the book asynchronously without reading its content. Holds the handle to the EPUB file.
 		/// </summary>
@@ -47,69 +121,6 @@ namespace EpubNet
 			bookRef.Author = string.Join(", ", bookRef.AuthorList);
 			bookRef.Content = await Task.Run(() => ContentReader.ParseContentMap(bookRef)).ConfigureAwait(false);
 			return bookRef;
-		}
-
-
-		/// <summary>
-		///     Opens the book synchronously and reads all of its content into the memory. Does not hold the handle to the EPUB file.
-		/// </summary>
-		/// <param name="stream">Stream of the EPUB file</param>
-		/// <returns></returns>
-		public static async Task<EpubBook> ReadBookAsync(Stream stream)
-		{
-			var result = new EpubBook();
-			var epubBookRef = await OpenBookAsync(stream).ConfigureAwait(false);
-			try
-			{
-				result.Schema = epubBookRef.Schema;
-				result.Title = epubBookRef.Title;
-				result.AuthorList = epubBookRef.AuthorList;
-				result.Author = epubBookRef.Author;
-				var epubBook = result;
-				var epubContent = await ReadContent(epubBookRef.Content).ConfigureAwait(false);
-				epubBook.Content = epubContent;
-				epubBook = null;
-				epubBook = result;
-				var numArray = await epubBookRef.ReadCoverAsync().ConfigureAwait(false);
-				epubBook.CoverImage = numArray;
-				epubBook = null;
-				var chapterRefs = epubBookRef.GetChapters();
-				epubBook = result;
-				var epubChapterList = await ReadChapters(chapterRefs).ConfigureAwait(false);
-				epubBook.Chapters = epubChapterList;
-				epubBook = null;
-			}
-			finally
-			{
-				epubBookRef?.Dispose();
-			}
-
-			epubBookRef = null;
-			return result;
-		}
-
-		/// <summary>
-		///     Opens the book asynchronously and reads all of its content into the memory. Does not hold the handle to the EPUB file.
-		/// </summary>
-		/// <param name="filePath">path to the EPUB file</param>
-		/// <returns></returns>
-		public static async Task<EpubBook> ReadBookAsync(string filePath)
-		{
-			var result = new EpubBook();
-			using (var epubBookRef = await OpenBookAsync(filePath).ConfigureAwait(false))
-			{
-				result.FilePath = epubBookRef.FilePath;
-				result.Schema = epubBookRef.Schema;
-				result.Title = epubBookRef.Title;
-				result.AuthorList = epubBookRef.AuthorList;
-				result.Author = epubBookRef.Author;
-				result.Content = await ReadContent(epubBookRef.Content).ConfigureAwait(false);
-				result.CoverImage = await epubBookRef.ReadCoverAsync().ConfigureAwait(false);
-				var chapterRefs = epubBookRef.GetChapters();
-				result.Chapters = await ReadChapters(chapterRefs).ConfigureAwait(false);
-			}
-
-			return result;
 		}
 
 		private static async Task<EpubContent> ReadContent(EpubContentRef contentRef)
@@ -190,5 +201,7 @@ namespace EpubNet
 
 			return result;
 		}
+
+		#endregion
 	}
 }

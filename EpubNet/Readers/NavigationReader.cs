@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,9 @@ using EpubNet.Utils;
 
 namespace EpubNet.Readers
 {
+	[SuppressMessage("ReSharper", "LoopCanBeConvertedToQuery")]
+	[SuppressMessage("ReSharper", "SwitchStatementMissingSomeCases")]
+	[SuppressMessage("ReSharper", "SuggestBaseTypeForParameter")]
 	internal static class NavigationReader
 	{
 		public static async Task<EpubNavigation> ReadNavigationAsync(ZipArchive epubArchive, string contentDirectoryPath, EpubPackage package)

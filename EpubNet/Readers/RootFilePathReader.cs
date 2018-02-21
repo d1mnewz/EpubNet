@@ -10,9 +10,9 @@ namespace EpubNet.Readers
 	{
 		public static async Task<string> GetRootFilePathAsync(ZipArchive epubArchive)
 		{
-			const string EPUB_CONTAINER_FILE_PATH = "META-INF/container.xml";
-			var containerFileEntry = epubArchive.GetEntry(EPUB_CONTAINER_FILE_PATH);
-			if (containerFileEntry is null) throw new Exception($"EPUB parsing error: {EPUB_CONTAINER_FILE_PATH} file not found in archive.");
+			const string epubContainerFilePath = "META-INF/container.xml";
+			var containerFileEntry = epubArchive.GetEntry(epubContainerFilePath);
+			if (containerFileEntry is null) throw new Exception($"EPUB parsing error: {epubContainerFilePath} file not found in archive.");
 			XDocument containerDocument;
 			using (var containerStream = containerFileEntry.Open())
 			{

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EpubNet.Schema.Navigation
 {
+	[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 	public class EpubNavigation
 	{
 		public EpubNavigationHead Head { get; set; }
