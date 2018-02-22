@@ -11,7 +11,12 @@ namespace EpubNet.Console
 			const string filename = "1.epub";
 			var bytes = await File.ReadAllBytesAsync(filename);
 			var stream = new MemoryStream(bytes);
+			
 			var book = await EpubReader.ReadBookAsync(bytes);
+
+			var bookFromStream = await EpubReader.ReadBookAsync(stream);
+
+			var bookFromFile = await EpubReader.ReadBookAsync(filename);
 
 			System.Console.WriteLine(book.ToPlainText());
 		}
