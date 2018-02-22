@@ -11,7 +11,7 @@ namespace EpubNet.Console
 			var bytes = await File.ReadAllBytesAsync(filename);
 			var stream = new MemoryStream(bytes);
 
-			var book = await EpubReader.ReadBookAsync(bytes);
+			var book = await EpubReader.ReadBookAsync(stream);
 
 			var bookFromStream = await EpubReader.ReadBookAsync(stream);
 

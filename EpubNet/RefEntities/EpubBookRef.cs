@@ -17,15 +17,12 @@ namespace EpubNet.RefEntities
 			_isDisposed = false;
 		}
 
-		public string FilePath { get; set; }
 		public string Title { get; set; }
-		public string Author { get; set; }
 		public List<string> AuthorList { get; set; }
 		public EpubSchema Schema { get; set; }
 		public EpubContentRef Content { get; set; }
 
 		internal ZipArchive EpubArchive { get; }
-
 
 		public void Dispose()
 		{
@@ -37,10 +34,6 @@ namespace EpubNet.RefEntities
 		{
 			Dispose(false);
 		}
-
-		public async Task<byte[]> ReadCoverAsync() => await BookCoverReader.ReadBookCoverAsync(this).ConfigureAwait(false);
-
-		public IEnumerable<EpubChapterRef> GetChapters() => ChapterReader.GetChapters(this);
 
 		private void Dispose(bool disposing)
 		{

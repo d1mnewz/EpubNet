@@ -14,9 +14,6 @@ namespace EpubNet.Entities
 		public string HtmlContent { get; set; }
 		public List<EpubChapter> SubChapters { get; set; }
 
-		public override string ToString()
-		{
-			return $"Title: {Title}, Subchapter count: {SubChapters.Count}";
-		}
+		public override string ToString() => $"Title: {Title}, Subchapter count: {SubChapters.Count}";
 	}
 }
