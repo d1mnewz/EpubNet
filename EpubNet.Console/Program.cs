@@ -13,8 +13,6 @@ namespace EpubNet.Console
 
 			var book = await EpubReader.ReadBookAsync(stream);
 
-			var bookFromStream = await EpubReader.ReadBookAsync(stream);
-
 			var bookFromFile = await EpubReader.ReadBookAsync(filename);
 
 			var contentAsPlainText = book.ContentAsPlainText;
