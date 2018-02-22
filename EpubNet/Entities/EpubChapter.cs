@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace EpubNet.Entities
 {
 	[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
+	[Obsolete("Rename to Pages?")]
 	public class EpubChapter
 	{
 		public string Title { get; set; }

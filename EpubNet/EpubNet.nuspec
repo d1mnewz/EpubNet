@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
+        <id>EpubNet</id>
+        <version>1.0.1</version>
+        <title>EpubNet</title>
+        <authors>Dmytro Zhluktenko</authors>
+        <owners>Dmytro Zhluktenko</owners>
+        <projectUrl>https://github.com/d1mnewz/EpubNet</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>.NET library that allows you to work with EPUB 2/3 files</description>
+        <dependencies>
+            <group targetFramework=".NETStandard2.0"/>
+        </dependencies>
+        <releaseNotes>Added new API for reading EPUB through byte array</releaseNotes>
+        <copyright>Copyright 2018</copyright>
+        <tags>EPUB EpubNet</tags>
+    </metadata>
+    <files>
+        <file src="C:\Users\d1mne\RiderProjects\Hello\EpubNet\EpubNet\bin\Debug\netstandard2.0\EpubNet.dll" target="lib\netstandard2.0\EpubNet.dll"/>
+    </files>
+</package>

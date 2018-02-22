@@ -4,9 +4,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using EpubNet.Entities;
 
-namespace EpubNet.Console.Extensions
+namespace EpubNet.Extensions
 {
-	public static class EpubReaderExtensions
+	internal static class EpubReaderExtensions
 	{
 		private static readonly RegexOptions RegexOptions =
 			RegexOptions.CultureInvariant | RegexOptions.IgnorePatternWhitespace | RegexOptions.ExplicitCapture;

@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp2.0</TargetFramework>
-        <LangVersion>7.1</LangVersion>
-    </PropertyGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\EpubNet\EpubNet.csproj">
-            <Project>{A7D1624D-9844-4B22-B182-E9AA0727902C}</Project>
-            <Name>EpubNet</Name>
-        </ProjectReference>
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="HtmlAgilityPack" Version="1.7.0"/>
-    </ItemGroup>
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EpubNet\EpubNet.csproj">
+      <Project>{A7D1624D-9844-4B22-B182-E9AA0727902C}</Project>
+      <Name>EpubNet</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.7.0"/>
+  </ItemGroup>
 </Project>

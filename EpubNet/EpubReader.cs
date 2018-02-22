@@ -18,10 +18,7 @@ namespace EpubNet
 		/// </summary>
 		/// <param name="content">Byte array of EPUB book</param>
 		/// <returns><seealso cref="EpubBook"/></returns>
-		public static async Task<EpubBook> ReadBookAsync(byte[] content)
-		{
-			return await ReadBookAsync(new MemoryStream(content));
-		}
+		public static async Task<EpubBook> ReadBookAsync(byte[] content) => await ReadBookAsync(new MemoryStream(content));
 
 		/// <summary>
 		/// 	Opens the book asynchronously and reads all of its content into the memory. Does not hold the handle to the EPUB file.
@@ -31,8 +28,7 @@ namespace EpubNet
 		public static async Task<EpubBook> ReadBookAsync(Stream stream)
 		{
 			var result = new EpubBook();
-			var epubBookRef = await OpenBookAsync(stream).ConfigureAwait(false);
-			try
+			using (var epubBookRef = await OpenBookAsync(stream).ConfigureAwait(false))
 			{
 				result.Schema = epubBookRef.Schema;
 				result.Title = epubBookRef.Title;
@@ -48,10 +44,6 @@ namespace EpubNet
 				epubBook = result;
 				var epubChapterList = await ReadChapters(chapterRefs).ConfigureAwait(false);
 				epubBook.Chapters = epubChapterList;
-			}
-			finally
-			{
-				epubBookRef?.Dispose();
 			}
 
 			return result;
