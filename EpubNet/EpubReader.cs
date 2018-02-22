@@ -42,8 +42,8 @@ namespace EpubNet
 				var epubContent = await ReadContent(epubBookRef.Content).ConfigureAwait(false);
 				epubBook.Content = epubContent;
 				epubBook = result;
-				var numArray = await epubBookRef.ReadCoverAsync().ConfigureAwait(false);
-				epubBook.CoverImage = numArray;
+				var coverImage = await epubBookRef.ReadCoverAsync().ConfigureAwait(false);
+				epubBook.CoverImage = coverImage;
 				var chapterRefs = epubBookRef.GetChapters();
 				epubBook = result;
 				var epubChapterList = await ReadChapters(chapterRefs).ConfigureAwait(false);
