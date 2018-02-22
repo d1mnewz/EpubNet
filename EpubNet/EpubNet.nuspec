@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>EpubNet</id>
-        <version>1.0.1</version>
+      <version>1.0.2</version>
         <title>EpubNet</title>
         <authors>Dmytro Zhluktenko</authors>
         <owners>Dmytro Zhluktenko</owners>
@@ -12,7 +12,7 @@
         <dependencies>
             <group targetFramework=".NETStandard2.0"/>
         </dependencies>
-        <releaseNotes>Added new API for reading EPUB through byte array</releaseNotes>
+      <releaseNotes>Added new properties for EpubBook entity</releaseNotes>
         <copyright>Copyright 2018</copyright>
         <tags>EPUB EpubNet</tags>
     </metadata>

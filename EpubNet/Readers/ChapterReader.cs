@@ -8,10 +8,7 @@ namespace EpubNet.Readers
 {
 	internal static class ChapterReader
 	{
-		public static IEnumerable<EpubChapterRef> GetChapters(EpubBookRef bookRef)
-		{
-			return GetChapters(bookRef, bookRef.Schema.Navigation.NavMap);
-		}
+		public static IEnumerable<EpubChapterRef> GetChapters(EpubBookRef bookRef) => GetChapters(bookRef, bookRef.Schema.Navigation.NavMap);
 
 		private static List<EpubChapterRef> GetChapters(EpubBookRef bookRef, IEnumerable<EpubNavigationPoint> navigationPoints)
 		{
@@ -21,7 +18,7 @@ namespace EpubNet.Readers
 				string contentFileName;
 				string anchor;
 				var contentSourceAnchorCharIndex = navigationPoint.Content.Source.IndexOf('#');
-				if (contentSourceAnchorCharIndex == -1)
+				if (contentSourceAnchorCharIndex is -1)
 				{
 					contentFileName = navigationPoint.Content.Source;
 					anchor = null;

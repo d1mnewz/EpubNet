@@ -337,7 +337,7 @@ namespace EpubNet.Readers
 
 			result.Toc = tocAttribute?.Value;
 			foreach (var spineItemNode in spineNode.Elements())
-				if (string.Compare(spineItemNode.Name.LocalName, "itemref", StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(spineItemNode.Name.LocalName, "itemref", StringComparison.OrdinalIgnoreCase) is 0)
 				{
 					var spineItemRef = new EpubSpineItemRef();
 					var idRefAttribute = spineItemNode.Attribute("idref");
@@ -356,7 +356,7 @@ namespace EpubNet.Readers
 		{
 			var result = new EpubGuide();
 			foreach (var guideReferenceNode in guideNode.Elements())
-				if (string.Compare(guideReferenceNode.Name.LocalName, "reference", StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(guideReferenceNode.Name.LocalName, "reference", StringComparison.OrdinalIgnoreCase) is 0)
 				{
 					var guideReference = new EpubGuideReference();
 					foreach (var guideReferenceNodeAttribute in guideReferenceNode.Attributes())

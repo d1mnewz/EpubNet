@@ -19,7 +19,7 @@ namespace EpubNet.Readers
 
 			var coverManifestItem = bookRef.Schema.Package.Manifest.FirstOrDefault(manifestItem =>
 				string.Compare(manifestItem.Id, coverMetaItem.Content, StringComparison.OrdinalIgnoreCase) == 0);
-			if (coverManifestItem == null) throw new Exception($"Incorrect EPUB manifest: item with ID = \"{coverMetaItem.Content}\" is missing.");
+			if (coverManifestItem is null) throw new Exception($"Incorrect EPUB manifest: item with ID = \"{coverMetaItem.Content}\" is missing.");
 
 			if (!bookRef.Content.Images.TryGetValue(coverManifestItem.Href, out var coverImageContentFileRef))
 				throw new Exception($"Incorrect EPUB manifest: item with href = \"{coverManifestItem.Href}\" is missing.");

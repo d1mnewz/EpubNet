@@ -22,12 +22,12 @@ namespace EpubNet.Readers
 			var tocId = package.Spine.Toc;
 			if (string.IsNullOrEmpty(tocId)) throw new Exception("EPUB parsing error: TOC ID is empty.");
 
-			var tocManifestItem = package.Manifest.FirstOrDefault(item => string.Compare(item.Id, tocId, StringComparison.OrdinalIgnoreCase) == 0);
-			if (tocManifestItem == null) throw new Exception($"EPUB parsing error: TOC item {tocId} not found in EPUB manifest.");
+			var tocManifestItem = package.Manifest.FirstOrDefault(item => string.Compare(item.Id, tocId, StringComparison.OrdinalIgnoreCase) is 0);
+			if (tocManifestItem is null) throw new Exception($"EPUB parsing error: TOC item {tocId} not found in EPUB manifest.");
 
 			var tocFileEntryPath = ZipPathUtils.Combine(contentDirectoryPath, tocManifestItem.Href);
 			var tocFileEntry = epubArchive.GetEntry(tocFileEntryPath);
-			if (tocFileEntry == null) throw new Exception($"EPUB parsing error: TOC file {tocFileEntryPath} not found in archive.");
+			if (tocFileEntry is null) throw new Exception($"EPUB parsing error: TOC file {tocFileEntryPath} not found in archive.");
 
 			if (tocFileEntry.Length > int.MaxValue) throw new Exception($"EPUB parsing error: TOC file {tocFileEntryPath} is larger than 2 Gb.");
 
@@ -39,15 +39,15 @@ namespace EpubNet.Readers
 
 			XNamespace ncxNamespace = "http://www.daisy.org/z3986/2005/ncx/";
 			var ncxNode = containerDocument.Element(ncxNamespace + "ncx");
-			if (ncxNode == null) throw new Exception("EPUB parsing error: TOC file does not contain ncx element.");
+			if (ncxNode is null) throw new Exception("EPUB parsing error: TOC file does not contain ncx element.");
 
 			var headNode = ncxNode.Element(ncxNamespace + "head");
-			if (headNode == null) throw new Exception("EPUB parsing error: TOC file does not contain head element.");
+			if (headNode is null) throw new Exception("EPUB parsing error: TOC file does not contain head element.");
 
 			var navigationHead = ReadNavigationHead(headNode);
 			result.Head = navigationHead;
 			var docTitleNode = ncxNode.Element(ncxNamespace + "docTitle");
-			if (docTitleNode == null) throw new Exception("EPUB parsing error: TOC file does not contain docTitle element.");
+			if (docTitleNode is null) throw new Exception("EPUB parsing error: TOC file does not contain docTitle element.");
 
 			var navigationDocTitle = ReadNavigationDocTitle(docTitleNode);
 			result.DocTitle = navigationDocTitle;
@@ -59,7 +59,7 @@ namespace EpubNet.Readers
 			}
 
 			var navMapNode = ncxNode.Element(ncxNamespace + "navMap");
-			if (navMapNode == null) throw new Exception("EPUB parsing error: TOC file does not contain navMap element.");
+			if (navMapNode is null) throw new Exception("EPUB parsing error: TOC file does not contain navMap element.");
 
 			var navMap = ReadNavigationMap(navMapNode);
 			result.NavMap = navMap;
@@ -84,7 +84,7 @@ namespace EpubNet.Readers
 		{
 			var result = new EpubNavigationHead();
 			foreach (var metaNode in headNode.Elements())
-				if (string.Compare(metaNode.Name.LocalName, "meta", StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(metaNode.Name.LocalName, "meta", StringComparison.OrdinalIgnoreCase) is 0)
 				{
 					var meta = new EpubNavigationHeadMeta();
 					foreach (var metaNodeAttribute in metaNode.Attributes())
@@ -106,7 +106,7 @@ namespace EpubNet.Readers
 
 					if (string.IsNullOrWhiteSpace(meta.Name)) throw new Exception("Incorrect EPUB navigation meta: meta name is missing.");
 
-					if (meta.Content == null) throw new Exception("Incorrect EPUB navigation meta: meta content is missing.");
+					if (meta.Content is null) throw new Exception("Incorrect EPUB navigation meta: meta content is missing.");
 
 					result.Add(meta);
 				}
@@ -118,7 +118,7 @@ namespace EpubNet.Readers
 		{
 			var result = new EpubNavigationDocTitle();
 			foreach (var textNode in docTitleNode.Elements())
-				if (string.Compare(textNode.Name.LocalName, "text", StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(textNode.Name.LocalName, "text", StringComparison.OrdinalIgnoreCase) is 0)
 					result.Add(textNode.Value);
 
 			return result;
@@ -128,7 +128,7 @@ namespace EpubNet.Readers
 		{
 			var result = new EpubNavigationDocAuthor();
 			foreach (var textNode in docAuthorNode.Elements())
-				if (string.Compare(textNode.Name.LocalName, "text", StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(textNode.Name.LocalName, "text", StringComparison.OrdinalIgnoreCase) is 0)
 					result.Add(textNode.Value);
 
 			return result;
@@ -138,7 +138,7 @@ namespace EpubNet.Readers
 		{
 			var result = new EpubNavigationMap();
 			foreach (var navigationPointNode in navigationMapNode.Elements())
-				if (string.Compare(navigationPointNode.Name.LocalName, "navPoint", StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(navigationPointNode.Name.LocalName, "navPoint", StringComparison.OrdinalIgnoreCase) is 0)
 				{
 					var navigationPoint = ReadNavigationPoint(navigationPointNode);
 					result.Add(navigationPoint);
@@ -231,7 +231,7 @@ namespace EpubNet.Readers
 		{
 			var result = new EpubNavigationPageList();
 			foreach (var pageTargetNode in navigationPageListNode.Elements())
-				if (string.Compare(pageTargetNode.Name.LocalName, "pageTarget", StringComparison.OrdinalIgnoreCase) == 0)
+				if (string.Compare(pageTargetNode.Name.LocalName, "pageTarget", StringComparison.OrdinalIgnoreCase) is 0)
 				{
 					var pageTarget = ReadNavigationPageTarget(pageTargetNode);
 					result.Add(pageTarget);

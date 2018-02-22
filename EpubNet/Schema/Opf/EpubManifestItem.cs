@@ -13,9 +13,6 @@ namespace EpubNet.Schema.Opf
 		public string Fallback { get; set; }
 		public string FallbackStyle { get; set; }
 
-		public override string ToString()
-		{
-			return $"Id: {Id}, Href = {Href}, MediaType = {MediaType}";
-		}
+		public override string ToString() => $"Id: {Id}, Href = {Href}, MediaType = {MediaType}";
 	}
 }

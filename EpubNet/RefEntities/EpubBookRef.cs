@@ -38,15 +38,9 @@ namespace EpubNet.RefEntities
 			Dispose(false);
 		}
 
-		public async Task<byte[]> ReadCoverAsync()
-		{
-			return await BookCoverReader.ReadBookCoverAsync(this).ConfigureAwait(false);
-		}
+		public async Task<byte[]> ReadCoverAsync() => await BookCoverReader.ReadBookCoverAsync(this).ConfigureAwait(false);
 
-		public IEnumerable<EpubChapterRef> GetChapters()
-		{
-			return ChapterReader.GetChapters(this);
-		}
+		public IEnumerable<EpubChapterRef> GetChapters() => ChapterReader.GetChapters(this);
 
 		private void Dispose(bool disposing)
 		{
